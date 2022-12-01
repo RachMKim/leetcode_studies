@@ -36,8 +36,10 @@ https://leetcode.com/explore/interview/card/bloomberg/68/array-and-strings/395/
 // the same logic but in english:
 
 // Remove the first row and add it to the answer
-// Rotate the reminder of the matrix 90* counter clockwise
-// Repeat step 1 and 2 until there's no more rows
+// get the last elements of each row(pop) and push into result array
+// reverse the current row
+// after looping finishes, reverse the whole matrix
+// Repeat steps until there's no more rows
 
 var spiralOrder = function (matrix) {
   const res = [];
