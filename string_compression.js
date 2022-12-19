@@ -31,29 +31,46 @@ Explanation: The groups are "a" and "bbbbbbbbbbbb". This compresses to "ab12".
 // method of not modifying input array
 
 var compress = function (chars) {
-  let map = new Map();
-  let string = "";
-
-  for (let i = 0; i < chars.length; i++) {
-    if (map.get(chars[i])) {
-      map.set(chars[i], map.get(chars[i]) + 1);
+  if (!chars.length) return 0;
+  let j = 0;
+  let cur = chars[0];
+  let counter = 0;
+  for (let i = 0; i <= chars.length; i++) {
+    if (chars[i] === cur) {
+      counter++;
     } else {
-      map.set(chars[i], 1);
-    }
-  }
-
-  for (let i = 0; i < chars.length; i++) {
-    if (map.get(chars[i])) {
-      if (map.get(chars[i]) === 1) {
-        string += chars[i];
-      } else {
-        string += chars[i];
-        string += map.get(chars[i]);
+      chars[j] = cur;
+      if (counter > 1) {
+        const s = counter.toString();
+        for (let k = 0; k < s.length; k++) chars[++j] = s[k];
       }
-
-      map.delete(chars[i]);
+      j++;
+      cur = chars[i];
+      counter = 1;
     }
   }
-  let modified = string.split("");
-  return modified;
+  return j;
 };
+
+var compress = function (chars) {
+  if (chars === null || chars.length <= 0) return 0;
+  let start = 0,
+    end = 0;
+  if (chars.length > 1) {
+    while (start < chars.length) {
+      if (chars[start] === chars[end]) {
+        end++;
+      } else if (end === start + 1) {
+        start = end;
+        end++;
+      } else {
+        let diff = (end - start).toString().split("");
+        chars.splice(start + 1, end - (start + 1), ...diff);
+        end = start = start + 1 + diff.length;
+      }
+    }
+  }
+  return chars.length;
+};
+
+console.log(compress(["a", "a", "a", "b", "b", "a", "a"]));
