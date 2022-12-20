@@ -145,3 +145,15 @@ var fib = function (N) {
   };
   return helper(N);
 };
+// other way
+var fib = function (n) {
+  let hash = new Map();
+  if (hash.has(n)) {
+    return hash.get(n);
+  }
+  if (n < 2) {
+    return n;
+  }
+  hash.set(n, fib(n - 1) + fib(n - 2));
+  return hash.get(n);
+};
