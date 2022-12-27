@@ -70,6 +70,20 @@ stack.length === 0, false thereby terminating the for looping
 
 */
 
+// RECURSION
+
+var preorderTraversal = function (root) {
+  if (!root) {
+    return [];
+  }
+
+  return [
+    root.val,
+    ...preorderTraversal(root.left),
+    ...preorderTraversal(root.right),
+  ];
+};
+
 // ITERATIVE
 
 /**
