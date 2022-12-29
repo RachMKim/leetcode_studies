@@ -110,4 +110,26 @@ function isMirror(s, t) {
 
   return true;
 }
+
+// iterative using stack
+
+const isSymmetric = function (root) {
+  if (!root) return true;
+
+  let stack = [];
+  stack.push(root.left);
+  stack.push(root.right);
+  while (stack.length) {
+    const l = stack.pop();
+    const r = stack.pop();
+
+    if (!l && !r) continue;
+    if (!l || !r || l.val != r.val) return false;
+    stack.push(l.right);
+    stack.push(r.left);
+    stack.push(l.left);
+    stack.push(r.right);
+  }
+  return true;
+};
 //ime complexity is O(n) and space complexity is the width of the tree.
