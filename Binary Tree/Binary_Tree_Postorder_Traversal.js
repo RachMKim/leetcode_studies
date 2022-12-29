@@ -27,7 +27,7 @@
 //    return root ? [...postorderTraversal(root.left), ...postorderTraversal(root.right), root.val] : []
 // };
 
-// ITERATIVE
+// ITERATIVE - very similar to preorder - but we unshift the val to the stack so the root can be at the end
 var postorderTraversal = function (root) {
   if (!root) return [];
 
@@ -39,13 +39,56 @@ var postorderTraversal = function (root) {
     // insert the node val to the front
     result.unshift(node.val);
 
-    if (node.left) stack.push(node.left); // left first
-    if (node.right) stack.push(node.right); // then right
+    if (node.left) {
+      stack.push(node.left); // left first
+    }
+    if (node.right) {
+      stack.push(node.right); // then right
+    }
   }
 
   return result;
 };
 
+// stack version
+var postorderTraversal = function (root) {
+  if (!root) {
+    return [];
+  }
+
+  let ans = [];
+  let stack = [];
+  cur = root;
+  pre = null;
+  while (cur || stack.length) {
+    // step 1
+    // move along the left edges as far as we can
+    if (cur) {
+      stack.push(cur);
+      cur = cur.left;
+      continue;
+    }
+
+    // step 2
+    // if the node is the parent of any right chid-node
+    let last = stack[stack.length - 1];
+    if (last.right && last.right != pre) {
+      cur = last.right;
+      continue;
+    }
+
+    // step 3
+    // most left / right nodes will be processed here first
+    // then parents nodes
+    ans.push(last.val);
+
+    // marked this node as processed
+    // so it's parent cannot add it again from the step 2
+    pre = stack.pop();
+  }
+
+  return ans;
+};
 // tree:
 //     1
 //   2   3
